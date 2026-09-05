@@ -1,1359 +1,1086 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Amantran Restaurant Billing Software</title>
 
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 :root{
-    --green:#032b20;
-    --green2:#064535;
-    --gold:#c99b3b;
-    --light:#f6f2e9;
-    --border:#ded6c8;
+ --green:#032b20;
+ --green2:#064535;
+ --gold:#c99b3b;
+ --light:#f6f2e9;
+ --border:#ded6c8;
 }
 
 body{
-    font-family:Arial, sans-serif;
-    background:#eee9df;
-    color:#222;
+ font-family:Arial,sans-serif;
+ background:#eee9df;
+ color:#222;
 }
 
-/* ================= HEADER ================= */
+button{cursor:pointer}
 
 .header{
-    background:linear-gradient(135deg,#001b12,#063d2d);
-    color:white;
-    min-height:125px;
-    padding:18px 30px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+ background:linear-gradient(135deg,#001b12,#063d2d);
+ color:white;
+ min-height:125px;
+ padding:18px 30px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
 }
 
-.brand{
-    display:flex;
-    align-items:center;
-    gap:22px;
-}
+.brand{display:flex;align-items:center;gap:22px}
 
 .logo{
-    width:85px;
-    height:85px;
-    border:2px solid var(--gold);
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:var(--gold);
-    font-family:Georgia;
-    font-size:52px;
+ width:85px;height:85px;border:2px solid var(--gold);
+ border-radius:50%;display:flex;align-items:center;
+ justify-content:center;color:var(--gold);
+ font-family:Georgia;font-size:52px;
 }
 
-.brand h1{
-    font-family:Georgia;
-    font-size:38px;
-    letter-spacing:3px;
-}
-
-.brand p{
-    color:#d6aa52;
-    letter-spacing:6px;
-    text-align:center;
-    margin-top:8px;
-}
+.brand h1{font-family:Georgia;font-size:38px;letter-spacing:3px}
+.brand p{color:#d6aa52;letter-spacing:6px;text-align:center;margin-top:8px}
 
 .header-right{
-    display:flex;
-    flex-direction:column;
-    align-items:flex-end;
-    gap:18px;
+ display:flex;flex-direction:column;align-items:flex-end;gap:18px
 }
 
-.top-info{
-    display:flex;
-    gap:28px;
-    color:#eee;
-}
-
-.header-buttons{
-    display:flex;
-    gap:12px;
-}
+.top-info{display:flex;gap:28px;color:#eee}
+.header-buttons{display:flex;gap:8px;flex-wrap:wrap}
 
 .header-buttons button{
-    border:none;
-    padding:14px 22px;
-    color:white;
-    font-size:14px;
-    font-weight:bold;
-    border-radius:5px;
-    cursor:pointer;
+ border:none;padding:12px 16px;color:white;
+ font-size:13px;font-weight:bold;border-radius:5px
 }
 
-.new-btn{ background:#08733b; }
-.save-btn{ background:#c47b00; }
-.print-btn{ background:#1459a6; }
-.close-btn{ background:#b71919; }
-
-/* ================= BILL INFO ================= */
+.new-btn{background:#08733b}
+.save-btn{background:#c47b00}
+.print-btn{background:#1459a6}
+.close-btn{background:#b71919}
+.dashboard-btn{background:#6937a5}
+.menu-btn{background:#555}
 
 .bill-info{
-    background:white;
-    padding:12px 25px;
-    display:grid;
-    grid-template-columns:1fr 1fr .8fr 1fr 2fr;
-    gap:15px;
-    border-bottom:1px solid #ddd;
+ background:white;padding:12px 25px;
+ display:grid;grid-template-columns:1fr 1fr .8fr 1fr 2fr;
+ gap:15px;border-bottom:1px solid #ddd
 }
 
-.info-group{
-    display:flex;
-    flex-direction:column;
-    gap:5px;
-}
+.info-group{display:flex;flex-direction:column;gap:5px}
+.info-group label{font-size:13px;font-weight:bold}
 
-.info-group label{
-    font-size:13px;
-    font-weight:bold;
+.info-group input,.info-group select{
+ padding:10px;border:1px solid #ccc;border-radius:5px;font-size:14px
 }
-
-.info-group input,
-.info-group select{
-    padding:10px;
-    border:1px solid #ccc;
-    border-radius:5px;
-    font-size:14px;
-}
-
-/* ================= MAIN ================= */
 
 .main{
-    display:grid;
-    grid-template-columns:1.25fr .9fr .75fr;
-    gap:10px;
-    padding:10px;
+ display:grid;grid-template-columns:1.25fr .9fr .75fr;
+ gap:10px;padding:10px
 }
 
-/* ================= MENU ================= */
-
-.menu-panel,
-.billing-panel,
-.invoice-panel{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:6px;
-    overflow:hidden;
+.menu-panel,.billing-panel,.invoice-panel{
+ background:white;border:1px solid var(--border);
+ border-radius:6px;overflow:hidden
 }
 
-.categories{
-    display:flex;
-}
+.categories{display:flex}
 
 .category{
-    flex:1;
-    padding:18px 10px;
-    border:none;
-    border-right:1px solid #ddd;
-    background:#f3eee4;
-    font-weight:bold;
-    cursor:pointer;
+ flex:1;padding:15px 8px;border:none;
+ border-right:1px solid #ddd;background:#f3eee4;
+ font-weight:bold
 }
 
-.category.active{
-    background:var(--green);
-    color:white;
-}
+.category.active{background:var(--green);color:white}
 
 .food-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    padding:15px;
-    max-height:610px;
-    overflow-y:auto;
+ display:grid;grid-template-columns:repeat(4,1fr);
+ gap:12px;padding:15px;max-height:610px;overflow-y:auto
 }
 
 .food-card{
-    border:1px solid #ddd;
-    border-radius:7px;
-    padding:6px;
-    text-align:center;
-    cursor:pointer;
-    transition:.2s;
+ border:1px solid #ddd;border-radius:7px;padding:6px;
+ text-align:center;transition:.2s
 }
 
 .food-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
+ transform:translateY(-3px);
+ box-shadow:0 5px 15px rgba(0,0,0,.15)
 }
 
 .food-card img{
-    width:100%;
-    height:100px;
-    object-fit:cover;
-    border-radius:5px;
+ width:100%;height:100px;object-fit:cover;border-radius:5px
 }
 
-.food-card h4{
-    margin-top:7px;
-    font-size:13px;
-    min-height:30px;
-}
+.food-card h4{margin-top:7px;font-size:13px;min-height:30px}
+.food-card p{font-weight:bold;font-size:17px;margin-top:5px}
 
-.food-card p{
-    font-weight:bold;
-    font-size:17px;
-    margin-top:5px;
-}
-
-.search-box{
-    padding:0 15px 15px;
-}
-
+.search-box{padding:0 15px 15px}
 .search-box input{
-    width:100%;
-    padding:12px;
-    border:1px solid #ccc;
-    border-radius:5px;
+ width:100%;padding:12px;border:1px solid #ccc;border-radius:5px
 }
-
-/* ================= BILL ================= */
 
 .panel-title{
-    background:var(--green);
-    color:white;
-    padding:15px;
-    font-weight:bold;
+ background:var(--green);color:white;padding:15px;font-weight:bold
 }
 
-.bill-table{
-    width:100%;
-    border-collapse:collapse;
+.bill-table{width:100%;border-collapse:collapse}
+.bill-table th,.bill-table td{
+ padding:10px 6px;border-bottom:1px solid #ddd;
+ font-size:13px;text-align:left
 }
 
-.bill-table th,
-.bill-table td{
-    padding:10px 6px;
-    border-bottom:1px solid #ddd;
-    font-size:13px;
-    text-align:left;
-}
-
-.bill-table th{
-    background:#f1ede5;
-}
+.bill-table th{background:#f1ede5}
 
 .qty-box{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:5px;
+ display:flex;justify-content:center;align-items:center;gap:5px
 }
 
 .qty-box button{
-    width:27px;
-    height:27px;
-    border:1px solid #ccc;
-    background:white;
-    cursor:pointer;
-    font-size:16px;
+ width:27px;height:27px;border:1px solid #ccc;
+ background:white;font-size:16px
 }
 
 .delete-btn{
-    border:none;
-    background:none;
-    color:#c41515;
-    font-size:18px;
-    cursor:pointer;
+ border:none;background:none;color:#c41515;font-size:18px
 }
 
-/* ================= SUMMARY ================= */
-
-.summary{
-    padding:15px;
-}
+.summary{padding:15px}
 
 .summary-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin:14px 0;
-    font-size:14px;
+ display:flex;justify-content:space-between;
+ align-items:center;margin:14px 0;font-size:14px
 }
 
 .summary-row input{
-    width:110px;
-    padding:8px;
-    border:1px solid #ccc;
-    border-radius:4px;
+ width:110px;padding:8px;border:1px solid #ccc;border-radius:4px
 }
 
-.summary hr{
-    border:none;
-    border-top:1px solid #ccc;
-}
+.summary hr{border:none;border-top:1px solid #ccc}
 
 .grand-total{
-    font-size:21px;
-    font-weight:bold;
-    color:var(--green);
+ font-size:21px;font-weight:bold;color:var(--green)
 }
-
-/* ================= PAYMENT ================= */
 
 .payment-options{
-    padding:15px;
-    display:flex;
-    gap:18px;
+ padding:15px;display:flex;gap:18px
 }
 
-.payment-row,
-.change-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 15px 15px;
+.payment-row,.change-row{
+ display:flex;justify-content:space-between;
+ align-items:center;padding:0 15px 15px
 }
 
 .payment-row input{
-    width:120px;
-    padding:9px;
-    border:1px solid #ccc;
-    border-radius:4px;
+ width:120px;padding:9px;border:1px solid #ccc;border-radius:4px
 }
 
-.change-row{
-    font-weight:bold;
-    color:#08733b;
-}
+.change-row{font-weight:bold;color:#08733b}
 
-/* ================= INVOICE ================= */
-
-.invoice-panel{
-    background:#eee8dc;
-    padding:10px;
-}
+.invoice-panel{background:#eee8dc;padding:10px}
 
 .invoice{
-    background:white;
-    min-height:720px;
-    padding:20px;
-    border:1px solid #bbb;
-    font-size:12px;
+ background:white;min-height:720px;padding:20px;
+ border:1px solid #bbb;font-size:12px
 }
 
-.invoice-brand{
-    text-align:center;
-}
+.invoice-brand{text-align:center}
 
 .invoice-logo{
-    width:55px;
-    height:55px;
-    margin:auto;
-    border:1px solid var(--gold);
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:#a47b28;
-    font-size:30px;
-    font-family:Georgia;
+ width:55px;height:55px;margin:auto;border:1px solid var(--gold);
+ border-radius:50%;display:flex;justify-content:center;
+ align-items:center;color:#a47b28;font-size:30px;font-family:Georgia
 }
 
 .invoice-brand h2{
-    font-family:Georgia;
-    letter-spacing:2px;
-    margin-top:7px;
-    font-size:26px;
+ font-family:Georgia;letter-spacing:2px;margin-top:7px;font-size:26px
 }
 
-.invoice-brand h3{
-    letter-spacing:3px;
-    margin:5px;
-}
+.invoice-brand h3{letter-spacing:3px;margin:5px}
+.invoice-brand p{letter-spacing:2px;font-size:9px}
 
-.invoice-brand p{
-    letter-spacing:2px;
-    font-size:9px;
-}
+.restaurant-info{text-align:center;line-height:1.8;margin:15px 0}
 
-.restaurant-info{
-    text-align:center;
-    line-height:1.8;
-    margin:15px 0;
-}
+.dashed{border:none;border-top:1px dashed #777;margin:12px 0}
+.invoice-title{text-align:center;margin-bottom:10px}
+.invoice-details p{margin:6px 0}
 
-.dashed{
-    border:none;
-    border-top:1px dashed #777;
-    margin:12px 0;
-}
-
-.invoice-title{
-    text-align:center;
-    margin-bottom:10px;
-}
-
-.invoice-details p{
-    margin:6px 0;
-}
-
-.invoice-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-.invoice-table th,
-.invoice-table td{
-    padding:6px 2px;
-    border-bottom:1px solid #ddd;
+.invoice-table{width:100%;border-collapse:collapse}
+.invoice-table th,.invoice-table td{
+ padding:6px 2px;border-bottom:1px solid #ddd
 }
 
 .invoice-table th:not(:first-child),
-.invoice-table td:not(:first-child){
-    text-align:right;
-}
+.invoice-table td:not(:first-child){text-align:right}
 
-.invoice-summary p,
-.invoice-payment p{
-    display:flex;
-    justify-content:space-between;
-    margin:8px 0;
+.invoice-summary p,.invoice-payment p{
+ display:flex;justify-content:space-between;margin:8px 0
 }
 
 .invoice-grand{
-    display:flex;
-    justify-content:space-between;
-    font-size:17px;
-    font-weight:bold;
+ display:flex;justify-content:space-between;
+ font-size:17px;font-weight:bold
 }
 
-.thankyou{
-    text-align:center;
-    margin-top:25px;
-    font-weight:bold;
-}
-
-/* ================= FOOTER ================= */
+.thankyou{text-align:center;margin-top:25px;font-weight:bold}
 
 .footer{
-    background:var(--green);
-    color:white;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+ background:var(--green);color:white;
+ display:flex;justify-content:space-between;align-items:center
 }
 
 .footer button{
-    padding:17px 25px;
-    background:transparent;
-    border:none;
-    border-right:1px solid rgba(255,255,255,.2);
-    color:white;
-    cursor:pointer;
+ padding:17px 25px;background:transparent;border:none;
+ border-right:1px solid rgba(255,255,255,.2);color:white
 }
 
-.total-items{
-    padding:0 25px;
+.total-items{padding:0 25px}
+
+/* MODALS */
+
+.modal{
+ display:none;position:fixed;z-index:1000;
+ left:0;top:0;width:100%;height:100%;
+ background:rgba(0,0,0,.65);
+ padding:30px;overflow:auto
 }
 
-/* ================= RESPONSIVE ================= */
+.modal-box{
+ background:white;max-width:1100px;margin:auto;
+ border-radius:10px;overflow:hidden
+}
+
+.modal-header{
+ background:var(--green);color:white;
+ padding:18px 22px;display:flex;
+ justify-content:space-between;align-items:center
+}
+
+.modal-header button{
+ background:none;border:none;color:white;font-size:22px
+}
+
+.dashboard{
+ padding:20px
+}
+
+.stats{
+ display:grid;grid-template-columns:repeat(4,1fr);gap:15px
+}
+
+.stat{
+ background:#f5f1e8;border:1px solid #ddd;
+ padding:20px;border-radius:8px
+}
+
+.stat h3{font-size:13px;color:#555}
+.stat strong{display:block;font-size:25px;color:var(--green);margin-top:8px}
+
+.dashboard-section{
+ margin-top:20px;background:#fafafa;
+ padding:15px;border:1px solid #ddd;border-radius:8px
+}
+
+.dashboard-section h3{margin-bottom:12px}
+
+.report-table{
+ width:100%;border-collapse:collapse
+}
+
+.report-table th,.report-table td{
+ padding:10px;border-bottom:1px solid #ddd;text-align:left
+}
+
+.report-table th{background:#eee8dc}
+
+.menu-manager{padding:20px}
+
+.menu-form{
+ display:grid;grid-template-columns:1fr 1fr 1fr 2fr auto;
+ gap:10px;margin-bottom:20px
+}
+
+.menu-form input,.menu-form select{
+ padding:11px;border:1px solid #ccc;border-radius:5px
+}
+
+.add-food{
+ background:#08733b;color:white;border:none;
+ padding:11px 18px;border-radius:5px;font-weight:bold
+}
+
+.menu-list{
+ width:100%;border-collapse:collapse
+}
+
+.menu-list th,.menu-list td{
+ padding:10px;border-bottom:1px solid #ddd
+}
+
+.menu-list th{background:#eee8dc}
+
+.menu-photo{
+ width:55px;height:45px;object-fit:cover;border-radius:5px
+}
+
+.edit-btn,.delete-menu-btn{
+ border:none;color:white;padding:7px 10px;border-radius:4px
+}
+
+.edit-btn{background:#1459a6}
+.delete-menu-btn{background:#b71919}
+
+.history-table{
+ width:100%;border-collapse:collapse
+}
+
+.history-table th,.history-table td{
+ padding:10px;border-bottom:1px solid #ddd;text-align:left
+}
+
+.history-table th{background:#eee8dc}
+
+.history-content{padding:20px;overflow:auto}
+
+.history-actions button{
+ border:none;padding:7px 10px;border-radius:4px;
+ color:white;margin-right:5px
+}
+
+.view-btn{background:#1459a6}
+.delete-history-btn{background:#b71919}
+
+.close-modal{
+ background:#b71919;color:white;border:none;
+ padding:10px 20px;border-radius:5px
+}
 
 @media(max-width:1200px){
-    .main{
-        grid-template-columns:1fr;
-    }
+ .main{grid-template-columns:1fr}
+ .stats{grid-template-columns:repeat(2,1fr)}
 }
 
+@media(max-width:700px){
+ .header{flex-direction:column;gap:20px}
+ .brand h1{font-size:24px}
+ .top-info{flex-wrap:wrap}
+ .bill-info{grid-template-columns:1fr 1fr}
+ .food-grid{grid-template-columns:repeat(2,1fr)}
+ .menu-form{grid-template-columns:1fr}
+ .stats{grid-template-columns:1fr}
+ .modal{padding:10px}
+}
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-
 <div class="header">
 
-    <div class="brand">
+ <div class="brand">
+  <div class="logo">A</div>
+  <div>
+   <h1>AMANTRAN RESTAURANT</h1>
+   <p>BRINGING YOU GOODNESS</p>
+  </div>
+ </div>
 
-        <div class="logo">A</div>
+ <div class="header-right">
 
-        <div>
-            <h1>AMANTRAN RESTAURANT</h1>
-            <p>BRINGING YOU GOODNESS</p>
-        </div>
+  <div class="top-info">
+   <span>👤 Administrator</span>
+   <span id="headerDate"></span>
+   <span id="headerTime"></span>
+  </div>
 
-    </div>
+  <div class="header-buttons">
+   <button class="new-btn" onclick="newBill()">➕ NEW BILL</button>
+   <button class="save-btn" onclick="saveBill()">💾 SAVE BILL</button>
+   <button class="dashboard-btn" onclick="showDashboard()">📊 SALES</button>
+   <button class="menu-btn" onclick="showMenuManager()">🍽️ MENU</button>
+   <button class="save-btn" onclick="showBillHistory()">📂 HISTORY</button>
+   <button class="print-btn" onclick="printBill()">🖨 PRINT</button>
+   <button class="close-btn" onclick="closeSoftware()">✖ CLOSE</button>
+  </div>
 
-    <div class="header-right">
-
-        <div class="top-info">
-            <span>👤 Administrator</span>
-            <span id="headerDate"></span>
-            <span id="headerTime"></span>
-        </div>
-
-        <div class="header-buttons">
-            <button class="new-btn" onclick="newBill()">➕ NEW BILL</button>
-            <button class="save-btn" onclick="saveBill()">💾 SAVE BILL</button>
-            <button class="save-btn" onclick="showBillHistory()">📂 BILL HISTORY</button>
-            <button class="print-btn" onclick="printBill()">🖨 PRINT BILL</button>
-            <button class="close-btn" onclick="closeSoftware()">✖ CLOSE</button>
-        </div>
-
-    </div>
-
+ </div>
 </div>
 
 
-<!-- BILL INFORMATION -->
-
 <div class="bill-info">
 
-    <div class="info-group">
-        <label>Bill No.</label>
-        <input id="billNo" readonly>
-    </div>
+ <div class="info-group">
+  <label>Bill No.</label>
+  <input id="billNo" readonly>
+ </div>
 
-    <div class="info-group">
-        <label>Date</label>
-        <input id="billDate" readonly>
-    </div>
+ <div class="info-group">
+  <label>Date</label>
+  <input id="billDate" readonly>
+ </div>
 
-    <div class="info-group">
-        <label>Time</label>
-        <input id="billTime" readonly>
-    </div>
+ <div class="info-group">
+  <label>Time</label>
+  <input id="billTime" readonly>
+ </div>
 
-    <div class="info-group">
-        <label>Table No.</label>
-        <select id="tableNo" onchange="calculateBill()">
-            <option>T-01</option>
-            <option>T-02</option>
-            <option>T-03</option>
-            <option>T-04</option>
-            <option>T-05</option>
-            <option>Take Away</option>
-        </select>
-    </div>
+ <div class="info-group">
+  <label>Table No.</label>
+  <select id="tableNo" onchange="calculateBill()">
+   <option>T-01</option>
+   <option>T-02</option>
+   <option>T-03</option>
+   <option>T-04</option>
+   <option>T-05</option>
+   <option>Take Away</option>
+  </select>
+ </div>
 
-    <div class="info-group">
-        <label>Customer Name</label>
-        <input id="customerName"
-               value="Walk-in Customer"
-               oninput="calculateBill()">
-    </div>
+ <div class="info-group">
+  <label>Customer Name</label>
+  <input id="customerName" value="Walk-in Customer" oninput="calculateBill()">
+ </div>
 
 </div>
 
 
 <div class="main">
 
-<!-- LEFT MENU -->
-
 <div class="menu-panel">
 
-    <div class="categories">
+ <div class="categories">
+  <button class="category active" onclick="changeCategory('south',this)">SOUTH INDIAN</button>
+  <button class="category" onclick="changeCategory('north',this)">NORTH INDIAN</button>
+  <button class="category" onclick="changeCategory('chinese',this)">CHINESE</button>
+  <button class="category" onclick="changeCategory('drinks',this)">DRINKS</button>
+ </div>
 
-        <button class="category active"
-                onclick="changeCategory('south',this)">
-            SOUTH INDIAN
-        </button>
+ <div class="food-grid" id="foodGrid"></div>
 
-        <button class="category"
-                onclick="changeCategory('north',this)">
-            NORTH INDIAN
-        </button>
-
-        <button class="category"
-                onclick="changeCategory('chinese',this)">
-            CHINESE
-        </button>
-
-        <button class="category"
-                onclick="changeCategory('drinks',this)">
-            DRINKS
-        </button>
-
-    </div>
-
-    <div class="food-grid" id="foodGrid"></div>
-
-    <div class="search-box">
-        <input type="text"
-               id="search"
-               placeholder="Search Item..."
-               oninput="searchItems()">
-    </div>
+ <div class="search-box">
+  <input id="search" placeholder="Search Item..." oninput="searchItems()">
+ </div>
 
 </div>
 
-
-<!-- CENTER BILL -->
 
 <div class="billing-panel">
 
-    <div class="panel-title">🛒 BILL ITEMS</div>
+ <div class="panel-title">🛒 BILL ITEMS</div>
 
-    <table class="bill-table">
+ <table class="bill-table">
+  <thead>
+   <tr>
+    <th>#</th>
+    <th>Item</th>
+    <th>Qty</th>
+    <th>Rate</th>
+    <th>Amount</th>
+    <th></th>
+   </tr>
+  </thead>
+  <tbody id="cartItems"></tbody>
+ </table>
 
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Item Name</th>
-                <th>Qty</th>
-                <th>Rate (₹)</th>
-                <th>Amount (₹)</th>
-                <th></th>
-            </tr>
-        </thead>
+ <div class="summary">
 
-        <tbody id="cartItems"></tbody>
+  <div class="summary-row">
+   <span>Subtotal</span>
+   <strong id="subtotal">₹0.00</strong>
+  </div>
 
-    </table>
+  <div class="summary-row">
+   <span>Discount (%)</span>
+   <input type="number" id="discount" value="0" min="0" max="100" oninput="calculateBill()">
+  </div>
 
+  <div class="summary-row">
+   <span>GST (5%)</span>
+   <strong id="gst">₹0.00</strong>
+  </div>
 
-    <div class="summary">
+  <hr>
 
-        <div class="summary-row">
-            <span>Subtotal</span>
-            <strong id="subtotal">₹0.00</strong>
-        </div>
+  <div class="summary-row grand-total">
+   <span>GRAND TOTAL</span>
+   <span id="grandTotal">₹0.00</span>
+  </div>
 
-        <div class="summary-row">
-            <span>Discount</span>
+ </div>
 
-            <input type="number"
-                   id="discount"
-                   value="0"
-                   min="0"
-                   oninput="calculateBill()">
-        </div>
+ <div class="panel-title">PAYMENT</div>
 
-        <div class="summary-row">
-            <span>GST (5%)</span>
-            <strong id="gst">₹0.00</strong>
-        </div>
+ <div class="payment-options">
 
-        <hr>
+  <label>
+   <input type="radio" name="payment" value="Cash" checked onchange="calculateBill()">
+   Cash
+  </label>
 
-        <div class="summary-row grand-total">
-            <span>GRAND TOTAL</span>
-            <span id="grandTotal">₹0.00</span>
-        </div>
+  <label>
+   <input type="radio" name="payment" value="UPI" onchange="calculateBill()">
+   UPI
+  </label>
 
-    </div>
+  <label>
+   <input type="radio" name="payment" value="Card" onchange="calculateBill()">
+   Card
+  </label>
 
+ </div>
 
-    <!-- PAYMENT -->
+ <div class="payment-row">
+  <span>Paid Amount</span>
+  <input type="number" id="paidAmount" value="0" min="0" oninput="calculateBill()">
+ </div>
 
-    <div class="panel-title">PAYMENT</div>
-
-    <div class="payment-options">
-
-        <label>
-            <input type="radio"
-                   name="payment"
-                   value="Cash"
-                   checked
-                   onchange="calculateBill()">
-            Cash
-        </label>
-
-        <label>
-            <input type="radio"
-                   name="payment"
-                   value="UPI"
-                   onchange="calculateBill()">
-            UPI
-        </label>
-
-        <label>
-            <input type="radio"
-                   name="payment"
-                   value="Card"
-                   onchange="calculateBill()">
-            Card
-        </label>
-
-    </div>
-
-
-    <div class="payment-row">
-
-        <span>Paid Amount</span>
-
-        <input type="number"
-               id="paidAmount"
-               value="0"
-               min="0"
-               oninput="calculateBill()">
-
-    </div>
-
-
-    <div class="change-row">
-
-        <span>Change</span>
-
-        <span id="change">₹0.00</span>
-
-    </div>
+ <div class="change-row">
+  <span>Change</span>
+  <span id="change">₹0.00</span>
+ </div>
 
 </div>
 
-
-<!-- RIGHT INVOICE -->
 
 <div class="invoice-panel">
 
 <div class="invoice" id="invoice">
 
-    <div class="invoice-brand">
+ <div class="invoice-brand">
+  <div class="invoice-logo">A</div>
+  <h2>AMANTRAN</h2>
+  <h3>RESTAURANT</h3>
+  <p>BRINGING YOU GOODNESS</p>
+ </div>
 
-        <div class="invoice-logo">A</div>
+ <div class="restaurant-info">
+  <p>Nawabganj Lucknow-Pyaragraj Road, Uttar Pradesh</p>
+  <p>Phone: 7905516332</p>
+ </div>
 
-        <h2>AMANTRAN</h2>
+ <hr class="dashed">
 
-        <h3>RESTAURANT</h3>
+ <h3 class="invoice-title">BILL / INVOICE</h3>
 
-        <p>BRINGING YOU GOODNESS</p>
+ <div class="invoice-details">
+  <p>Bill No. : <span id="iBillNo"></span></p>
+  <p>Date : <span id="iDate"></span></p>
+  <p>Time : <span id="iTime"></span></p>
+  <p>Table No. : <span id="iTable"></span></p>
+  <p>Customer : <span id="iCustomer"></span></p>
+ </div>
 
-    </div>
+ <hr class="dashed">
 
+ <table class="invoice-table">
+  <thead>
+   <tr>
+    <th>Item</th>
+    <th>Qty</th>
+    <th>Rate</th>
+    <th>Amount</th>
+   </tr>
+  </thead>
+  <tbody id="invoiceItems"></tbody>
+ </table>
 
-    <div class="restaurant-info">
-        <p>Lucknow, Uttar Pradesh</p>
-        <p>Phone: 9876543210</p>
-    </div>
+ <hr class="dashed">
 
+ <div class="invoice-summary">
+  <p><span>Subtotal</span><span id="iSubtotal">₹0.00</span></p>
+  <p><span>Discount</span><span id="iDiscount">₹0.00</span></p>
+  <p><span>GST (5%)</span><span id="iGST">₹0.00</span></p>
+ </div>
 
-    <hr class="dashed">
+ <hr class="dashed">
 
-    <h3 class="invoice-title">BILL / INVOICE</h3>
+ <div class="invoice-grand">
+  <span>GRAND TOTAL</span>
+  <span id="iGrandTotal">₹0.00</span>
+ </div>
 
+ <hr class="dashed">
 
-    <div class="invoice-details">
+ <div class="invoice-payment">
+  <p><span>Payment Mode</span><span id="iPayment">Cash</span></p>
+  <p><span>Paid Amount</span><span id="iPaid">₹0.00</span></p>
+  <p><span>Change</span><span id="iChange">₹0.00</span></p>
+ </div>
 
-        <p>Bill No. : <span id="iBillNo"></span></p>
-        <p>Date : <span id="iDate"></span></p>
-        <p>Time : <span id="iTime"></span></p>
-        <p>Table No. : <span id="iTable"></span></p>
-        <p>Customer : <span id="iCustomer"></span></p>
+ <hr class="dashed">
 
-    </div>
+ <div class="thankyou">Thank You! Visit Again 😊</div>
 
-
-    <hr class="dashed">
-
-
-    <table class="invoice-table">
-
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Qty</th>
-                <th>Rate</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
-
-        <tbody id="invoiceItems"></tbody>
-
-    </table>
-
-
-    <hr class="dashed">
-
-
-    <div class="invoice-summary">
-
-        <p>
-            <span>Subtotal</span>
-            <span id="iSubtotal">₹0.00</span>
-        </p>
-
-        <p>
-            <span>Discount</span>
-            <span id="iDiscount">₹0.00</span>
-        </p>
-
-        <p>
-            <span>GST (5%)</span>
-            <span id="iGST">₹0.00</span>
-        </p>
-
-    </div>
-
-
-    <hr class="dashed">
-
-
-    <div class="invoice-grand">
-
-        <span>GRAND TOTAL</span>
-
-        <span id="iGrandTotal">₹0.00</span>
-
-    </div>
-
-
-    <hr class="dashed">
-
-
-    <div class="invoice-payment">
-
-        <p>
-            <span>Payment Mode</span>
-            <span id="iPayment">Cash</span>
-        </p>
-
-        <p>
-            <span>Paid Amount</span>
-            <span id="iPaid">₹0.00</span>
-        </p>
-
-        <p>
-            <span>Change</span>
-            <span id="iChange">₹0.00</span>
-        </p>
-
-    </div>
-
-
-    <hr class="dashed">
-
-    <div class="thankyou">
-        Thank You! Visit Again 😊
-    </div>
-
+</div>
 </div>
 
 </div>
 
-</div>
-
-
-<!-- FOOTER -->
 
 <div class="footer">
 
-    <div>
+ <div>
+  <button onclick="newBill()">➕ F1 - New Bill</button>
+  <button onclick="saveBill()">💾 F2 - Save Bill</button>
+  <button onclick="printBill()">🖨 F3 - Print Bill</button>
+ </div>
 
-        <button onclick="newBill()">➕ F1 - New Bill</button>
-
-        <button onclick="saveBill()">💾 F2 - Save Bill</button>
-
-        <button onclick="printBill()">🖨 F3 - Print Bill</button>
-
-    </div>
-
-    <div class="total-items">
-        🛒 Total Items:
-        <strong id="totalItems">0</strong>
-    </div>
+ <div class="total-items">
+  🛒 Total Items: <strong id="totalItems">0</strong>
+ </div>
 
 </div>
-<!-- BILL HISTORY MODAL -->
 
-<div id="historyModal" class="history-modal">
 
-    <div class="history-box">
+<!-- SALES DASHBOARD -->
 
-        <div class="history-header">
-            <h2>📂 BILL HISTORY</h2>
+<div id="dashboardModal" class="modal">
 
-            <button onclick="closeBillHistory()">
-                ✖
-            </button>
-        </div>
+ <div class="modal-box">
 
-        <div class="history-table-wrapper">
+  <div class="modal-header">
+   <h2>📊 SALES DASHBOARD</h2>
+   <button onclick="closeDashboard()">✖</button>
+  </div>
 
-            <table class="history-table">
+  <div class="dashboard">
 
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Bill No.</th>
-                        <th>Customer</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Table</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
+   <div class="stats">
 
-                <tbody id="historyItems"></tbody>
-
-            </table>
-
-        </div>
-
+    <div class="stat">
+     <h3>THIS MONTH SALES</h3>
+     <strong id="monthSales">₹0.00</strong>
     </div>
+
+    <div class="stat">
+     <h3>TOTAL BILLS</h3>
+     <strong id="monthBills">0</strong>
+    </div>
+
+    <div class="stat">
+     <h3>ITEMS SOLD</h3>
+     <strong id="monthItems">0</strong>
+    </div>
+
+    <div class="stat">
+     <h3>AVERAGE BILL</h3>
+     <strong id="averageBill">₹0.00</strong>
+    </div>
+
+   </div>
+
+   <div class="dashboard-section">
+
+    <h3>💳 PAYMENT SALES</h3>
+
+    <table class="report-table">
+     <thead>
+      <tr>
+       <th>Payment Mode</th>
+       <th>Sales</th>
+      </tr>
+     </thead>
+     <tbody id="paymentReport"></tbody>
+    </table>
+
+   </div>
+
+   <div class="dashboard-section">
+
+    <h3>🔥 BEST SELLING ITEMS</h3>
+
+    <table class="report-table">
+     <thead>
+      <tr>
+       <th>#</th>
+       <th>Food Item</th>
+       <th>Quantity Sold</th>
+       <th>Sales</th>
+      </tr>
+     </thead>
+     <tbody id="bestItems"></tbody>
+    </table>
+
+   </div>
+
+  </div>
+
+ </div>
+
+</div>
+
+
+<!-- MENU MANAGER -->
+
+<div id="menuModal" class="modal">
+
+ <div class="modal-box">
+
+  <div class="modal-header">
+   <h2>🍽️ MANAGE MENU</h2>
+   <button onclick="closeMenuManager()">✖</button>
+  </div>
+
+  <div class="menu-manager">
+
+   <div class="menu-form">
+
+    <input id="foodName" placeholder="Food Name">
+
+    <input id="foodPrice" type="number" placeholder="Price">
+
+    <select id="foodCategory">
+     <option value="south">South Indian</option>
+     <option value="north">North Indian</option>
+     <option value="chinese">Chinese</option>
+     <option value="drinks">Drinks</option>
+     <option value="starter">Starter</option>
+     <option value="dessert">Dessert</option>
+     <option value="soup">Soup</option>
+    </select>
+
+    <input id="foodImage" placeholder="Photo URL">
+
+    <button class="add-food" onclick="addOrUpdateFood()">
+     ➕ ADD FOOD
+    </button>
+
+   </div>
+
+   <input type="hidden" id="editingIndex" value="-1">
+   <input type="hidden" id="editingCategory" value="">
+
+   <table class="menu-list">
+
+    <thead>
+     <tr>
+      <th>Photo</th>
+      <th>Food</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>Action</th>
+     </tr>
+    </thead>
+
+    <tbody id="menuList"></tbody>
+
+   </table>
+
+  </div>
+
+ </div>
+
+</div>
+
+
+<!-- BILL HISTORY -->
+
+<div id="historyModal" class="modal">
+
+ <div class="modal-box">
+
+  <div class="modal-header">
+   <h2>📂 BILL HISTORY</h2>
+   <button onclick="closeBillHistory()">✖</button>
+  </div>
+
+  <div class="history-content">
+
+   <table class="history-table">
+
+    <thead>
+     <tr>
+      <th>#</th>
+      <th>Bill No.</th>
+      <th>Customer</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Table</th>
+      <th>Payment</th>
+      <th>Total</th>
+      <th>Action</th>
+     </tr>
+    </thead>
+
+    <tbody id="historyItems"></tbody>
+
+   </table>
+
+  </div>
+
+ </div>
 
 </div>
 
 
 <script>
 
-    // tumhara JavaScript yahan se start hota hai
-
-
 /* ================= MENU DATA ================= */
 
-const menu = {
+const defaultMenu = {
 
-south:[
-    {
-        name:"Masala Dosa",
-        price:160,
-        image:"https://images.unsplash.com/photo-1630409351217-bc4fa6422075?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Butter Masala Dosa",
-        price:180,
-        image:"https://images.unsplash.com/photo-1630383249896-424e482df921?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Paneer Dosa",
-        price:220,
-        image:"https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Rava Dosa",
-        price:160,
-        image:"https://images.unsplash.com/photo-1630409346824-4f0e7b080087?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Idli Sambhar",
-        price:100,
-        image:"https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Medu Vada",
-        price:120,
-        image:"https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Uttapam",
-        price:140,
-        image:"https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Onion Uttapam",
-        price:150,
-        image:"https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?auto=format&fit=crop&w=500&q=80"
-    }
-],
+ south:[
+  {name:"Masala Dosa",price:160,image:"https://images.unsplash.com/photo-1630409351217-bc4fa6422075?auto=format&fit=crop&w=500&q=80"},
+  {name:"Butter Masala Dosa",price:180,image:"https://images.unsplash.com/photo-1630383249896-424e482df921?auto=format&fit=crop&w=500&q=80"},
+  {name:"Paneer Dosa",price:220,image:"https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=500&q=80"},
+  {name:"Rava Dosa",price:160,image:"https://images.unsplash.com/photo-1630409346824-4f0e7b080087?auto=format&fit=crop&w=500&q=80"},
+  {name:"Idli Sambhar",price:100,image:"https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=500&q=80"},
+  {name:"Medu Vada",price:120,image:"https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=500&q=80"},
+  {name:"Uttapam",price:140,image:"https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=500&q=80"},
+  {name:"Onion Uttapam",price:150,image:"https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?auto=format&fit=crop&w=500&q=80"}
+ ],
 
-north:[
-    {
-        name:"Paneer Butter Masala",
-        price:250,
-        image:"https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Dal Tadka",
-        price:180,
-        image:"https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Butter Naan",
-        price:60,
-        image:"https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=500&q=80"
-    }
-],
+ north:[
+  {name:"Paneer Butter Masala",price:250,image:"https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=500&q=80"},
+  {name:"Dal Tadka",price:180,image:"https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&q=80"},
+  {name:"Butter Naan",price:60,image:"https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=500&q=80"}
+ ],
 
-chinese:[
-    {
-        name:"Veg Fried Rice",
-        price:180,
-        image:"https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Hakka Noodles",
-        price:190,
-        image:"https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Chilli Paneer",
-        price:220,
-        image:"https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?auto=format&fit=crop&w=500&q=80"
-    }
-],
+ chinese:[
+  {name:"Veg Fried Rice",price:180,image:"https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=500&q=80"},
+  {name:"Hakka Noodles",price:190,image:"https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80"},
+  {name:"Chilli Paneer",price:220,image:"https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?auto=format&fit=crop&w=500&q=80"}
+ ],
 
-drinks:[
-    {
-        name:"Cold Coffee",
-        price:80,
-        image:"https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Fresh Lime Soda",
-        price:60,
-        image:"https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-        name:"Masala Tea",
-        price:30,
-        image:"https://images.unsplash.com/photo-1567922045116-36a00c8b8d61?auto=format&fit=crop&w=500&q=80"
-    }
-]
+ drinks:[
+  {name:"Cold Coffee",price:80,image:"https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80"},
+  {name:"Fresh Lime Soda",price:60,image:"https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=500&q=80"},
+  {name:"Masala Tea",price:30,image:"https://images.unsplash.com/photo-1567922045116-36a00c8b8d61?auto=format&fit=crop&w=500&q=80"}
+ ]
 
 };
 
 
-/* ================= VARIABLES ================= */
+/* ================= DATA ================= */
 
-let currentCategory = "south";
-let cart = [];
+let menu =
+ JSON.parse(localStorage.getItem("amantranMenu")) || defaultMenu;
+
+let currentCategory="south";
+let cart=[];
+
+
+/* ================= SAVE MENU ================= */
+
+function saveMenu(){
+ localStorage.setItem("amantranMenu",JSON.stringify(menu));
+}
 
 
 /* ================= RENDER MENU ================= */
 
 function renderMenu(items){
 
-    if(!items){
-        items = menu[currentCategory];
-    }
+ if(!items) items=menu[currentCategory];
 
-    const foodGrid = document.getElementById("foodGrid");
+ const foodGrid=document.getElementById("foodGrid");
 
-    foodGrid.innerHTML = "";
+ foodGrid.innerHTML="";
 
-    items.forEach(function(item){
+ items.forEach(function(item){
 
-        foodGrid.innerHTML += `
-            <div class="food-card"
-                 onclick="addItem('${item.name}', ${item.price})">
+  foodGrid.innerHTML+=`
+   <div class="food-card" onclick="addItem('${escapeQuotes(item.name)}',${item.price})">
+    <img src="${item.image}" alt="${item.name}"
+         onerror="this.src='https://via.placeholder.com/300x200?text=Food'">
+    <h4>${item.name}</h4>
+    <p>₹${Number(item.price).toFixed(2)}</p>
+   </div>
+  `;
 
-                <img src="${item.image}" alt="${item.name}">
+ });
+}
 
-                <h4>${item.name}</h4>
 
-                <p>₹${item.price}</p>
+/* ================= ESCAPE ================= */
 
-            </div>
-        `;
-
-    });
-
+function escapeQuotes(text){
+ return text.replace(/'/g,"\\'").replace(/"/g,'&quot;');
 }
 
 
 /* ================= CATEGORY ================= */
 
-function changeCategory(category, button){
+function changeCategory(category,button){
 
-    currentCategory = category;
+ currentCategory=category;
 
-    document.querySelectorAll(".category")
-        .forEach(function(btn){
-            btn.classList.remove("active");
-        });
+ document.querySelectorAll(".category").forEach(function(btn){
+  btn.classList.remove("active");
+ });
 
-    button.classList.add("active");
+ button.classList.add("active");
 
-    document.getElementById("search").value = "";
+ document.getElementById("search").value="";
 
-    renderMenu();
-
+ renderMenu();
 }
 
 
 /* ================= ADD ITEM ================= */
 
-function addItem(name, price){
+function addItem(name,price){
 
-    const existing = cart.find(function(item){
-        return item.name === name;
-    });
+ const existing=cart.find(function(item){
+  return item.name===name;
+ });
 
-    if(existing){
+ if(existing){
+  existing.qty++;
+ }else{
+  cart.push({name:name,price:Number(price),qty:1});
+ }
 
-        existing.qty++;
-
-    }else{
-
-        cart.push({
-            name:name,
-            price:price,
-            qty:1
-        });
-
-    }
-
-    renderCart();
-
+ renderCart();
 }
 
 
-/* ================= RENDER CART ================= */
+/* ================= CART ================= */
 
 function renderCart(){
 
-    const cartItems =
-        document.getElementById("cartItems");
+ const cartItems=document.getElementById("cartItems");
 
-    cartItems.innerHTML = "";
+ cartItems.innerHTML="";
 
-    cart.forEach(function(item,index){
+ cart.forEach(function(item,index){
 
-        const amount = item.price * item.qty;
+  const amount=item.price*item.qty;
 
-        cartItems.innerHTML += `
+  cartItems.innerHTML+=`
+   <tr>
+    <td>${index+1}</td>
+    <td>${item.name}</td>
+    <td>
+     <div class="qty-box">
+      <button onclick="changeQty(${index},-1)">−</button>
+      <span>${item.qty}</span>
+      <button onclick="changeQty(${index},1)">+</button>
+     </div>
+    </td>
+    <td>${item.price.toFixed(2)}</td>
+    <td>${amount.toFixed(2)}</td>
+    <td>
+     <button class="delete-btn" onclick="removeItem(${index})">🗑</button>
+    </td>
+   </tr>
+  `;
+ });
 
-            <tr>
-
-                <td>${index + 1}</td>
-
-                <td>${item.name}</td>
-
-                <td>
-
-                    <div class="qty-box">
-
-                        <button onclick="changeQty(${index}, -1)">
-                            −
-                        </button>
-
-                        <span>${item.qty}</span>
-
-                        <button onclick="changeQty(${index}, 1)">
-                            +
-                        </button>
-
-                    </div>
-
-                </td>
-
-                <td>${item.price.toFixed(2)}</td>
-
-                <td>${amount.toFixed(2)}</td>
-
-                <td>
-
-                    <button class="delete-btn"
-                            onclick="removeItem(${index})">
-                        🗑
-                    </button>
-
-                </td>
-
-            </tr>
-
-        `;
-
-    });
-
-    calculateBill();
-
+ calculateBill();
 }
 
 
-/* ================= CHANGE QTY ================= */
+/* ================= QTY ================= */
 
-function changeQty(index, value){
+function changeQty(index,value){
 
-    cart[index].qty += value;
+ cart[index].qty+=value;
 
-    if(cart[index].qty <= 0){
-        cart.splice(index,1);
-    }
+ if(cart[index].qty<=0){
+  cart.splice(index,1);
+ }
 
-    renderCart();
-
+ renderCart();
 }
 
 
-/* ================= REMOVE ITEM ================= */
+/* ================= REMOVE ================= */
 
 function removeItem(index){
 
-    cart.splice(index,1);
+ cart.splice(index,1);
 
-    renderCart();
-
+ renderCart();
 }
 
 
-/* ================= CALCULATE BILL ================= */
+/* ================= CALCULATE ================= */
 
 function calculateBill(){
 
-    let subtotal = 0;
+ let subtotal=0;
 
-    cart.forEach(function(item){
+ cart.forEach(function(item){
+  subtotal+=item.price*item.qty;
+ });
+let discountPercent =
+    Number(document.getElementById("discount").value) || 0;
 
-        subtotal += item.price * item.qty;
+if(discountPercent > 100){
+    discountPercent = 100;
+    document.getElementById("discount").value = 100;
+}
 
-    });
+const discount =
+    subtotal * discountPercent / 100;
 
+const taxable =
+    subtotal - discount;
+ const gst=taxable*0.05;
+ const total=taxable+gst;
 
-    let discount = Number(
-        document.getElementById("discount").value
-    ) || 0;
+ const paid=Number(document.getElementById("paidAmount").value)||0;
 
+ const change=Math.max(paid-total,0);
 
-    if(discount > subtotal){
+ document.getElementById("subtotal").innerText="₹"+subtotal.toFixed(2);
+ document.getElementById("gst").innerText="₹"+gst.toFixed(2);
+ document.getElementById("grandTotal").innerText="₹"+total.toFixed(2);
+ document.getElementById("change").innerText="₹"+change.toFixed(2);
 
-        discount = subtotal;
+ const totalItems=cart.reduce(function(sum,item){
+  return sum+item.qty;
+ },0);
 
-        document.getElementById("discount").value =
-            discount;
+ document.getElementById("totalItems").innerText=totalItems;
 
-    }
-
-
-    const taxable = subtotal - discount;
-
-    const gst = taxable * 0.05;
-
-    const total = taxable + gst;
-
-
-    const paid = Number(
-        document.getElementById("paidAmount").value
-    ) || 0;
-
-
-    const change = Math.max(
-        paid - total,
-        0
-    );
-
-
-    /* LEFT BILL */
-
-    document.getElementById("subtotal").innerText =
-        "₹" + subtotal.toFixed(2);
-
-    document.getElementById("gst").innerText =
-        "₹" + gst.toFixed(2);
-
-    document.getElementById("grandTotal").innerText =
-        "₹" + total.toFixed(2);
-
-    document.getElementById("change").innerText =
-        "₹" + change.toFixed(2);
-
-
-    const totalItems = cart.reduce(
-        function(sum,item){
-            return sum + item.qty;
-        },
-        0
-    );
-
-    document.getElementById("totalItems").innerText =
-        totalItems;
-
-
-    updateInvoice(
-        subtotal,
-        discount,
-        gst,
-        total,
-        paid,
-        change
-    );
-
+ updateInvoice(subtotal,discount,gst,total,paid,change);
 }
 
 
-/* ================= UPDATE INVOICE ================= */
+/* ================= INVOICE ================= */
 
-function updateInvoice(
-    subtotal,
-    discount,
-    gst,
-    total,
-    paid,
-    change
-){
+function updateInvoice(subtotal,discount,gst,total,paid,change){
 
-    document.getElementById("iBillNo").innerText =
-        document.getElementById("billNo").value;
+ document.getElementById("iBillNo").innerText=document.getElementById("billNo").value;
+ document.getElementById("iDate").innerText=document.getElementById("billDate").value;
+ document.getElementById("iTime").innerText=document.getElementById("billTime").value;
+ document.getElementById("iTable").innerText=document.getElementById("tableNo").value;
+ document.getElementById("iCustomer").innerText=document.getElementById("customerName").value;
 
-    document.getElementById("iDate").innerText =
-        document.getElementById("billDate").value;
+ const invoiceItems=document.getElementById("invoiceItems");
 
-    document.getElementById("iTime").innerText =
-        document.getElementById("billTime").value;
+ invoiceItems.innerHTML="";
 
-    document.getElementById("iTable").innerText =
-        document.getElementById("tableNo").value;
+ cart.forEach(function(item){
 
-    document.getElementById("iCustomer").innerText =
-        document.getElementById("customerName").value;
+  invoiceItems.innerHTML+=`
+   <tr>
+    <td>${item.name}</td>
+    <td>${item.qty}</td>
+    <td>${item.price.toFixed(2)}</td>
+    <td>${(item.price*item.qty).toFixed(2)}</td>
+   </tr>
+  `;
+ });
 
+ document.getElementById("iSubtotal").innerText="₹"+subtotal.toFixed(2);
+ document.getElementById("iDiscount").innerText="₹"+discount.toFixed(2);
+ document.getElementById("iGST").innerText="₹"+gst.toFixed(2);
+ document.getElementById("iGrandTotal").innerText="₹"+total.toFixed(2);
 
-    const invoiceItems =
-        document.getElementById("invoiceItems");
+ const selected=document.querySelector('input[name="payment"]:checked');
 
-    invoiceItems.innerHTML = "";
-
-
-    cart.forEach(function(item){
-
-        invoiceItems.innerHTML += `
-
-            <tr>
-
-                <td>${item.name}</td>
-
-                <td>${item.qty}</td>
-
-                <td>${item.price.toFixed(2)}</td>
-
-                <td>${(item.price * item.qty).toFixed(2)}</td>
-
-            </tr>
-
-        `;
-
-    });
-
-
-    document.getElementById("iSubtotal").innerText =
-        "₹" + subtotal.toFixed(2);
-
-    document.getElementById("iDiscount").innerText =
-        "₹" + discount.toFixed(2);
-
-    document.getElementById("iGST").innerText =
-        "₹" + gst.toFixed(2);
-
-    document.getElementById("iGrandTotal").innerText =
-        "₹" + total.toFixed(2);
-
-
-    const selectedPayment =
-        document.querySelector(
-            'input[name="payment"]:checked'
-        );
-
-    document.getElementById("iPayment").innerText =
-        selectedPayment.value;
-
-
-    document.getElementById("iPaid").innerText =
-        "₹" + paid.toFixed(2);
-
-    document.getElementById("iChange").innerText =
-        "₹" + change.toFixed(2);
-
+ document.getElementById("iPayment").innerText=selected ? selected.value : "Cash";
+ document.getElementById("iPaid").innerText="₹"+paid.toFixed(2);
+ document.getElementById("iChange").innerText="₹"+change.toFixed(2);
 }
 
 
@@ -1361,32 +1088,23 @@ function updateInvoice(
 
 function searchItems(){
 
-    const search =
-        document.getElementById("search")
-        .value
-        .toLowerCase();
+ const search=document.getElementById("search").value.toLowerCase();
 
-    const results = [];
+ const results=[];
 
+ Object.values(menu).forEach(function(category){
 
-    Object.values(menu).forEach(function(category){
+  category.forEach(function(item){
 
-        category.forEach(function(item){
+   if(item.name.toLowerCase().includes(search)){
+    results.push(item);
+   }
 
-            if(
-                item.name
-                .toLowerCase()
-                .includes(search)
-            ){
-                results.push(item);
-            }
+  });
 
-        });
+ });
 
-    });
-
-    renderMenu(results);
-
+ renderMenu(results);
 }
 
 
@@ -1394,15 +1112,9 @@ function searchItems(){
 
 function generateBillNumber(){
 
-    const random =
-        Math.floor(
-            100000000 +
-            Math.random() * 900000000
-        );
+ const random=Math.floor(100000000+Math.random()*900000000);
 
-    document.getElementById("billNo").value =
-        "ABR" + random;
-
+ document.getElementById("billNo").value="ABR"+random;
 }
 
 
@@ -1410,33 +1122,20 @@ function generateBillNumber(){
 
 function setDateTime(){
 
-    const now = new Date();
+ const now=new Date();
 
-    const date =
-        now.toLocaleDateString("en-IN");
+ const date=now.toLocaleDateString("en-IN");
 
-    const time =
-        now.toLocaleTimeString(
-            "en-IN",
-            {
-                hour:"2-digit",
-                minute:"2-digit"
-            }
-        );
+ const time=now.toLocaleTimeString("en-IN",{
+  hour:"2-digit",
+  minute:"2-digit"
+ });
 
+ document.getElementById("billDate").value=date;
+ document.getElementById("billTime").value=time;
 
-    document.getElementById("billDate").value =
-        date;
-
-    document.getElementById("billTime").value =
-        time;
-
-    document.getElementById("headerDate").innerText =
-        "📅 " + date;
-
-    document.getElementById("headerTime").innerText =
-        "🕒 " + time;
-
+ document.getElementById("headerDate").innerText="📅 "+date;
+ document.getElementById("headerTime").innerText="🕒 "+time;
 }
 
 
@@ -1444,21 +1143,15 @@ function setDateTime(){
 
 function newBill(){
 
-    cart = [];
+ cart=[];
 
-    document.getElementById("discount").value = 0;
+ document.getElementById("discount").value=0;
+ document.getElementById("paidAmount").value=0;
+ document.getElementById("customerName").value="Walk-in Customer";
 
-    document.getElementById("paidAmount").value = 0;
-
-    document.getElementById("customerName").value =
-        "Walk-in Customer";
-
-    generateBillNumber();
-
-    setDateTime();
-
-    renderCart();
-
+ generateBillNumber();
+ setDateTime();
+ renderCart();
 }
 
 
@@ -1466,150 +1159,530 @@ function newBill(){
 
 function saveBill(){
 
-    if(cart.length === 0){
-        alert("Please add food items first!");
-        return;
-    }
+ if(cart.length===0){
+  alert("Please add food items first!");
+  return;
+ }
 
-    const bill = {
-        billNo: document.getElementById("billNo").value,
-        date: document.getElementById("billDate").value,
-        time: document.getElementById("billTime").value,
-        customer: document.getElementById("customerName").value,
-        table: document.getElementById("tableNo").value,
-        items: cart,
-        total: document.getElementById("grandTotal").innerText
-    };
+ const totalText=document.getElementById("grandTotal").innerText;
 
-    const bills = JSON.parse(
-        localStorage.getItem("amantranBills")
-    ) || [];
+ const selected=document.querySelector('input[name="payment"]:checked');
 
-    bills.push(bill);
+ const bill={
+  billNo:document.getElementById("billNo").value,
+  date:document.getElementById("billDate").value,
+  time:document.getElementById("billTime").value,
+  customer:document.getElementById("customerName").value,
+  table:document.getElementById("tableNo").value,
+  payment:selected ? selected.value : "Cash",
+  items:JSON.parse(JSON.stringify(cart)),
+  total:totalText
+ };
 
-    localStorage.setItem(
-        "amantranBills",
-        JSON.stringify(bills)
-    );
+ const bills=JSON.parse(localStorage.getItem("amantranBills"))||[];
 
-    alert("Bill Saved Successfully! ✅");
+ bills.push(bill);
+
+ localStorage.setItem("amantranBills",JSON.stringify(bills));
+
+ alert("Bill Saved Successfully! ✅");
 }
 
+
+/* ================= BILL HISTORY ================= */
 
 function showBillHistory(){
 
-    const bills = JSON.parse(
-        localStorage.getItem("amantranBills")
-    ) || [];
+ const bills=JSON.parse(localStorage.getItem("amantranBills"))||[];
 
-    if(bills.length === 0){
-        alert("No saved bills found!");
-        return;
-    }
+ const body=document.getElementById("historyItems");
 
-    let history = "";
+ body.innerHTML="";
 
-    bills.forEach(function(bill, index){
+ if(bills.length===0){
+  body.innerHTML=`
+   <tr>
+    <td colspan="9" style="text-align:center;padding:25px">
+     No saved bills found.
+    </td>
+   </tr>
+  `;
+ }else{
 
-        history +=
-            (index + 1) + ". Bill No: " + bill.billNo + "\n" +
-            "Customer: " + bill.customer + "\n" +
-            "Date: " + bill.date + " " + bill.time + "\n" +
-            "Table: " + bill.table + "\n" +
-            "Total: " + bill.total + "\n\n";
+  bills.slice().reverse().forEach(function(bill,index){
 
-    });
+   const realIndex=bills.length-1-index;
 
-    alert("BILL HISTORY\n\n" + history);
+   body.innerHTML+=`
+    <tr>
+     <td>${index+1}</td>
+     <td>${bill.billNo}</td>
+     <td>${bill.customer}</td>
+     <td>${bill.date}</td>
+     <td>${bill.time}</td>
+     <td>${bill.table}</td>
+     <td>${bill.payment||"Cash"}</td>
+     <td>${bill.total}</td>
+     <td class="history-actions">
+      <button class="view-btn" onclick="viewSavedBill(${realIndex})">View</button>
+      <button class="delete-history-btn" onclick="deleteSavedBill(${realIndex})">Delete</button>
+     </td>
+    </tr>
+   `;
+  });
+ }
 
+ document.getElementById("historyModal").style.display="block";
 }
 
 
-/* ================= PRINT BILL ================= */
+function closeBillHistory(){
+ document.getElementById("historyModal").style.display="none";
+}
+
+
+function deleteSavedBill(index){
+
+ if(!confirm("Delete this bill permanently?")){
+  return;
+ }
+
+ const bills=JSON.parse(localStorage.getItem("amantranBills"))||[];
+
+ bills.splice(index,1);
+
+ localStorage.setItem("amantranBills",JSON.stringify(bills));
+
+ showBillHistory();
+}
+
+
+function viewSavedBill(index){
+
+ const bills=JSON.parse(localStorage.getItem("amantranBills"))||[];
+
+ const bill=bills[index];
+
+ if(!bill)return;
+
+ cart=JSON.parse(JSON.stringify(bill.items));
+
+ document.getElementById("billNo").value=bill.billNo;
+ document.getElementById("billDate").value=bill.date;
+ document.getElementById("billTime").value=bill.time;
+ document.getElementById("customerName").value=bill.customer;
+ document.getElementById("tableNo").value=bill.table;
+
+ const payment=document.querySelector(
+  `input[name="payment"][value="${bill.payment||"Cash"}"]`
+ );
+
+ if(payment)payment.checked=true;
+
+ document.getElementById("paidAmount").value=parseFloat(
+  String(bill.total).replace(/[₹,]/g,"")
+ )||0;
+
+ renderCart();
+
+ closeBillHistory();
+}
+
+
+/* ================= MENU MANAGER ================= */
+
+function showMenuManager(){
+
+ renderMenuList();
+
+ document.getElementById("menuModal").style.display="block";
+}
+
+
+function closeMenuManager(){
+
+ document.getElementById("menuModal").style.display="none";
+
+ clearFoodForm();
+}
+
+
+function renderMenuList(){
+
+ const body=document.getElementById("menuList");
+
+ body.innerHTML="";
+
+ Object.keys(menu).forEach(function(category){
+
+  menu[category].forEach(function(item,index){
+
+   body.innerHTML+=`
+    <tr>
+     <td>
+      <img class="menu-photo"
+       src="${item.image}"
+       onerror="this.src='https://via.placeholder.com/100x70?text=Food'">
+     </td>
+
+     <td>${item.name}</td>
+
+     <td>${categoryName(category)}</td>
+
+     <td>₹${Number(item.price).toFixed(2)}</td>
+
+     <td>
+      <button class="edit-btn"
+       onclick="editFood('${category}',${index})">
+       Edit
+      </button>
+
+      <button class="delete-menu-btn"
+       onclick="deleteFood('${category}',${index})">
+       Delete
+      </button>
+     </td>
+    </tr>
+   `;
+  });
+
+ });
+}
+
+
+function categoryName(category){
+
+ const names={
+  south:"South Indian",
+  north:"North Indian",
+  chinese:"Chinese",
+  drinks:"Drinks"
+ };
+
+ return names[category]||category;
+}
+
+
+/* ================= ADD / EDIT FOOD ================= */
+
+function addOrUpdateFood(){
+
+ const name=document.getElementById("foodName").value.trim();
+ const price=Number(document.getElementById("foodPrice").value);
+ const category=document.getElementById("foodCategory").value;
+ const image=document.getElementById("foodImage").value.trim();
+
+ const editingIndex=Number(document.getElementById("editingIndex").value);
+ const editingCategory=document.getElementById("editingCategory").value;
+
+ if(!name || !price){
+  alert("Please enter Food Name and Price.");
+  return;
+ }
+
+ const food={
+  name:name,
+  price:price,
+  image:image || "https://via.placeholder.com/300x200?text=Food"
+ };
+
+ if(editingIndex>=0){
+
+  menu[editingCategory].splice(editingIndex,1);
+
+  menu[category].push(food);
+
+  alert("Food updated successfully! ✅");
+
+ }else{
+
+  menu[category].push(food);
+
+  alert("Food added successfully! ✅");
+ }
+
+ saveMenu();
+
+ clearFoodForm();
+ renderMenuList();
+ renderMenu();
+
+ document.getElementById("foodCategory").value=currentCategory;
+}
+
+
+function editFood(category,index){
+
+ const item=menu[category][index];
+
+ document.getElementById("foodName").value=item.name;
+ document.getElementById("foodPrice").value=item.price;
+ document.getElementById("foodCategory").value=category;
+ document.getElementById("foodImage").value=item.image;
+
+ document.getElementById("editingIndex").value=index;
+ document.getElementById("editingCategory").value=category;
+
+ document.querySelector(".add-food").innerText="💾 UPDATE FOOD";
+}
+
+
+function deleteFood(category,index){
+
+ const item=menu[category][index];
+
+ if(!confirm(`Delete ${item.name}?`)){
+  return;
+ }
+
+ menu[category].splice(index,1);
+
+ saveMenu();
+
+ renderMenuList();
+ renderMenu();
+
+ alert("Food deleted successfully.");
+}
+
+
+function clearFoodForm(){
+
+ document.getElementById("foodName").value="";
+ document.getElementById("foodPrice").value="";
+ document.getElementById("foodImage").value="";
+ document.getElementById("editingIndex").value="-1";
+ document.getElementById("editingCategory").value="";
+ document.querySelector(".add-food").innerText="➕ ADD FOOD";
+}
+
+
+/* ================= SALES DASHBOARD ================= */
+
+function showDashboard(){
+
+ calculateDashboard();
+
+ document.getElementById("dashboardModal").style.display="block";
+}
+
+
+function closeDashboard(){
+ document.getElementById("dashboardModal").style.display="none";
+}
+
+
+function calculateDashboard(){
+
+ const bills=JSON.parse(localStorage.getItem("amantranBills"))||[];
+
+ const now=new Date();
+
+ const month=now.getMonth();
+ const year=now.getFullYear();
+
+ const monthly=bills.filter(function(bill){
+
+  const parts=bill.date.split("/");
+
+  if(parts.length!==3)return false;
+
+  const billDate=new Date(
+   Number(parts[2]),
+   Number(parts[1])-1,
+   Number(parts[0])
+  );
+
+  return billDate.getMonth()===month &&
+         billDate.getFullYear()===year;
+ });
+
+
+ let sales=0;
+ let itemCount=0;
+
+ const payments={
+  Cash:0,
+  UPI:0,
+  Card:0
+ };
+
+ const itemData={};
+
+
+ monthly.forEach(function(bill){
+
+  const total=parseFloat(
+   String(bill.total).replace(/[₹,]/g,"")
+  )||0;
+
+  sales+=total;
+
+  const payment=bill.payment||"Cash";
+
+  if(payments[payment]!==undefined){
+   payments[payment]+=total;
+  }
+
+  bill.items.forEach(function(item){
+
+   itemCount+=item.qty;
+
+   if(!itemData[item.name]){
+    itemData[item.name]={
+     qty:0,
+     sales:0
+    };
+   }
+
+   itemData[item.name].qty+=item.qty;
+   itemData[item.name].sales+=item.price*item.qty;
+  });
+
+ });
+
+
+ document.getElementById("monthSales").innerText=
+  "₹"+sales.toFixed(2);
+
+ document.getElementById("monthBills").innerText=
+  monthly.length;
+
+ document.getElementById("monthItems").innerText=
+  itemCount;
+
+ document.getElementById("averageBill").innerText=
+  "₹"+(monthly.length ? sales/monthly.length : 0).toFixed(2);
+
+
+ const paymentReport=document.getElementById("paymentReport");
+
+ paymentReport.innerHTML="";
+
+ Object.keys(payments).forEach(function(mode){
+
+  paymentReport.innerHTML+=`
+   <tr>
+    <td>${mode}</td>
+    <td>₹${payments[mode].toFixed(2)}</td>
+   </tr>
+  `;
+ });
+
+
+ const bestItems=document.getElementById("bestItems");
+
+ bestItems.innerHTML="";
+
+ const sorted=Object.entries(itemData)
+  .sort(function(a,b){
+   return b[1].qty-a[1].qty;
+  });
+
+ if(sorted.length===0){
+
+  bestItems.innerHTML=`
+   <tr>
+    <td colspan="4" style="text-align:center">
+     No sales data for this month.
+    </td>
+   </tr>
+  `;
+
+ }else{
+
+  sorted.forEach(function(entry,index){
+
+   bestItems.innerHTML+=`
+    <tr>
+     <td>${index+1}</td>
+     <td>${entry[0]}</td>
+     <td>${entry[1].qty}</td>
+     <td>₹${entry[1].sales.toFixed(2)}</td>
+    </tr>
+   `;
+  });
+ }
+}
+
+
+/* ================= PRINT ================= */
 
 function printBill(){
 
-    if(cart.length === 0){
+ if(cart.length===0){
+  alert("Please add items first!");
+  return;
+ }
 
-        alert("Please add items first!");
+ const invoice=document.getElementById("invoice").innerHTML;
 
-        return;
+ const printWindow=window.open(
+  "",
+  "",
+  "width=600,height=800"
+ );
 
+ printWindow.document.write(`
+  <html>
+  <head>
+   <title>Amantran Bill</title>
+
+   <style>
+
+    body{
+     font-family:Arial;
+     padding:25px;
     }
 
-    const invoice =
-        document.getElementById("invoice").innerHTML;
+    table{
+     width:100%;
+     border-collapse:collapse;
+    }
 
+    th,td{
+     padding:6px;
+     border-bottom:1px solid #ddd;
+    }
 
-    const printWindow =
-        window.open(
-            "",
-            "",
-            "width=600,height=800"
-        );
+    .invoice-brand{
+     text-align:center;
+    }
 
+    .invoice-logo{
+     text-align:center;
+     font-size:35px;
+    }
 
-    printWindow.document.write(`
-        <html>
-        <head>
-            <title>Amantran Bill</title>
+    .restaurant-info,
+    .thankyou{
+     text-align:center;
+    }
 
-            <style>
+    .invoice-grand,
+    .invoice-summary p,
+    .invoice-payment p{
+     display:flex;
+     justify-content:space-between;
+    }
 
-                body{
-                    font-family:Arial;
-                    padding:25px;
-                }
+   </style>
+  </head>
 
-                table{
-                    width:100%;
-                    border-collapse:collapse;
-                }
+  <body>
+   ${invoice}
+  </body>
 
-                th,td{
-                    padding:6px;
-                    border-bottom:1px solid #ddd;
-                }
+  </html>
+ `);
 
-                .invoice-brand{
-                    text-align:center;
-                }
+ printWindow.document.close();
 
-                .invoice-logo{
-                    text-align:center;
-                    font-size:35px;
-                }
+ printWindow.focus();
 
-                .restaurant-info,
-                .thankyou{
-                    text-align:center;
-                }
-
-                .invoice-grand,
-                .invoice-summary p,
-                .invoice-payment p{
-                    display:flex;
-                    justify-content:space-between;
-                }
-
-            </style>
-
-        </head>
-
-        <body>
-
-            ${invoice}
-
-        </body>
-
-        </html>
-    `);
-
-
-    printWindow.document.close();
-
-    printWindow.print();
-
+ setTimeout(function(){
+  printWindow.print();
+ },300);
 }
 
 
@@ -1617,19 +1690,38 @@ function printBill(){
 
 function closeSoftware(){
 
-    alert("Restaurant Billing Software Closed!");
+ alert("Restaurant Billing Software Closed!");
 
 }
+
+
+/* ================= KEYBOARD SHORTCUTS ================= */
+
+document.addEventListener("keydown",function(event){
+
+ if(event.key==="F1"){
+  event.preventDefault();
+  newBill();
+ }
+
+ if(event.key==="F2"){
+  event.preventDefault();
+  saveBill();
+ }
+
+ if(event.key==="F3"){
+  event.preventDefault();
+  printBill();
+ }
+
+});
 
 
 /* ================= START ================= */
 
 generateBillNumber();
-
 setDateTime();
-
 renderMenu();
-
 calculateBill();
 
 </script>
