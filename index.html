@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,6 +120,13 @@ button{cursor:pointer}
 .food-card h4{margin-top:7px;font-size:13px;min-height:30px}
 .food-card p{font-weight:bold;font-size:17px;margin-top:5px}
 
+.size-options{display:flex;gap:5px;margin-top:8px}
+.size-options button{
+ flex:1;padding:7px 3px;border:1px solid var(--green);
+ background:white;color:var(--green);border-radius:4px;font-size:12px
+}
+.size-options button:hover{background:var(--green);color:white}
+
 .search-box{padding:0 15px 15px}
 .search-box input{
  width:100%;padding:12px;border:1px solid #ccc;border-radius:5px
@@ -169,8 +175,36 @@ button{cursor:pointer}
 }
 
 .payment-options{
- padding:15px;display:flex;gap:18px
+ padding:15px;display:flex;gap:10px
 }
+
+.payment-options label{
+ flex:1;padding:10px;border:1px solid #ccc;border-radius:5px;
+ text-align:center;cursor:pointer;background:#fff
+}
+
+.payment-options label:has(input:checked){
+ background:var(--green);border-color:var(--green);color:white
+}
+
+.payment-options input{
+ margin-right:5px
+}
+
+.upi-details{
+ display:none;margin:0 15px 15px;padding:12px;
+ border:1px solid #d8c79f;border-radius:5px;background:#fffaf0
+}
+
+.upi-details.visible{display:flex;align-items:center;gap:15px}
+
+.upi-details label{display:flex;flex-direction:column;gap:5px;flex:1;font-size:13px;font-weight:bold}
+
+.upi-details input{
+ padding:9px;border:1px solid #ccc;border-radius:4px;font-size:14px
+}
+
+.upi-qr{width:100px;height:100px;object-fit:contain;border:1px solid #ddd;background:white}
 
 .payment-row,.change-row{
  display:flex;justify-content:space-between;
@@ -458,7 +492,10 @@ button{cursor:pointer}
   <button class="category active" onclick="changeCategory('south',this)">SOUTH INDIAN</button>
   <button class="category" onclick="changeCategory('north',this)">NORTH INDIAN</button>
   <button class="category" onclick="changeCategory('chinese',this)">CHINESE</button>
+    <button class="category" onclick="changeCategory('starter',this)">STARTER</button>
+    <button class="category" onclick="changeCategory('soup',this)">SOUP</button>
   <button class="category" onclick="changeCategory('drinks',this)">DRINKS</button>
+    <button class="category" onclick="changeCategory('roti',this)">ROTI</button>
  </div>
 
  <div class="food-grid" id="foodGrid"></div>
@@ -533,6 +570,14 @@ button{cursor:pointer}
    Card
   </label>
 
+ </div>
+
+ <div id="upiDetails" class="upi-details">
+  <label>
+   UPI ID
+  <input id="upiId" value="devendra0787-1@okicici" placeholder="example@upi" oninput="updateUpiQr()">
+  </label>
+  <img id="upiQr" class="upi-qr" alt="UPI QR Code">
  </div>
 
  <div class="payment-row">
@@ -743,9 +788,11 @@ button{cursor:pointer}
      <option value="starter">Starter</option>
      <option value="dessert">Dessert</option>
      <option value="soup">Soup</option>
+    <option value="roti">Roti</option>
     </select>
 
-    <input id="foodImage" placeholder="Photo URL">
+    <input id="foodImage" type="file" accept="image/*">
+    <input id="foodImageData" type="hidden" value="">
 
     <button class="add-food" onclick="addOrUpdateFood()">
      ➕ ADD FOOD
@@ -852,7 +899,11 @@ const defaultMenu = {
   {name:"Cold Coffee",price:80,image:"https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80"},
   {name:"Fresh Lime Soda",price:60,image:"https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=500&q=80"},
   {name:"Masala Tea",price:30,image:"https://images.unsplash.com/photo-1567922045116-36a00c8b8d61?auto=format&fit=crop&w=500&q=80"}
- ]
+ ],
+
+ starter:[],
+ soup:[],
+ roti:[]
 
 };
 
@@ -861,6 +912,10 @@ const defaultMenu = {
 
 let menu =
  JSON.parse(localStorage.getItem("amantranMenu")) || defaultMenu;
+
+menu.starter = menu.starter || [];
+menu.soup = menu.soup || [];
+menu.roti = menu.roti || [];
 
 let currentCategory="south";
 let cart=[];
@@ -886,11 +941,15 @@ function renderMenu(items){
  items.forEach(function(item){
 
   foodGrid.innerHTML+=`
-   <div class="food-card" onclick="addItem('${escapeQuotes(item.name)}',${item.price})">
+  <div class="food-card">
     <img src="${item.image}" alt="${item.name}"
          onerror="this.src='https://via.placeholder.com/300x200?text=Food'">
     <h4>${item.name}</h4>
     <p>₹${Number(item.price).toFixed(2)}</p>
+   <div class="size-options">
+    <button onclick="addItem('${escapeQuotes(item.name)}',${item.price},'Full')">FULL</button>
+    <button onclick="addItem('${escapeQuotes(item.name)}',${item.price / 2},'Half')">HALF</button>
+   </div>
    </div>
   `;
 
@@ -925,16 +984,18 @@ function changeCategory(category,button){
 
 /* ================= ADD ITEM ================= */
 
-function addItem(name,price){
+function addItem(name,price,size){
+
+ size=size||"Full";
 
  const existing=cart.find(function(item){
-  return item.name===name;
+  return item.name===name && (item.size||"Full")===size;
  });
 
  if(existing){
   existing.qty++;
  }else{
-  cart.push({name:name,price:Number(price),qty:1});
+  cart.push({name:name,price:Number(price),size:size,qty:1});
  }
 
  renderCart();
@@ -956,7 +1017,7 @@ function renderCart(){
   cartItems.innerHTML+=`
    <tr>
     <td>${index+1}</td>
-    <td>${item.name}</td>
+    <td>${itemLabel(item)}</td>
     <td>
      <div class="qty-box">
       <button onclick="changeQty(${index},-1)">−</button>
@@ -974,6 +1035,10 @@ function renderCart(){
  });
 
  calculateBill();
+}
+
+function itemLabel(item){
+ return `${item.name} (${item.size||"Full"})`;
 }
 
 
@@ -1042,6 +1107,30 @@ const taxable =
  document.getElementById("totalItems").innerText=totalItems;
 
  updateInvoice(subtotal,discount,gst,total,paid,change);
+ updatePaymentDetails();
+}
+
+function updatePaymentDetails(){
+ const selected=document.querySelector('input[name="payment"]:checked');
+ const upiDetails=document.getElementById("upiDetails");
+
+ if(!upiDetails)return;
+
+ upiDetails.classList.toggle("visible",selected && selected.value==="UPI");
+ updateUpiQr();
+}
+
+function updateUpiQr(){
+ const upiId=document.getElementById("upiId");
+ const upiQr=document.getElementById("upiQr");
+
+ if(!upiId || !upiQr)return;
+
+ const paymentUri="upi://pay?pa="+encodeURIComponent(upiId.value.trim())+
+  "&pn="+encodeURIComponent("Amantran Restaurant");
+
+ upiQr.src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data="+
+  encodeURIComponent(paymentUri);
 }
 
 
@@ -1063,7 +1152,7 @@ function updateInvoice(subtotal,discount,gst,total,paid,change){
 
   invoiceItems.innerHTML+=`
    <tr>
-    <td>${item.name}</td>
+    <td>${itemLabel(item)}</td>
     <td>${item.qty}</td>
     <td>${item.price.toFixed(2)}</td>
     <td>${(item.price*item.qty).toFixed(2)}</td>
@@ -1356,7 +1445,10 @@ function categoryName(category){
   south:"South Indian",
   north:"North Indian",
   chinese:"Chinese",
-  drinks:"Drinks"
+    starter:"Starter",
+    soup:"Soup",
+    drinks:"Drinks",
+    roti:"Roti"
  };
 
  return names[category]||category;
@@ -1365,12 +1457,13 @@ function categoryName(category){
 
 /* ================= ADD / EDIT FOOD ================= */
 
-function addOrUpdateFood(){
+async function addOrUpdateFood(){
 
  const name=document.getElementById("foodName").value.trim();
  const price=Number(document.getElementById("foodPrice").value);
  const category=document.getElementById("foodCategory").value;
- const image=document.getElementById("foodImage").value.trim();
+ const imageFile=document.getElementById("foodImage").files[0];
+ let image=document.getElementById("foodImageData").value;
 
  const editingIndex=Number(document.getElementById("editingIndex").value);
  const editingCategory=document.getElementById("editingCategory").value;
@@ -1378,6 +1471,15 @@ function addOrUpdateFood(){
  if(!name || !price){
   alert("Please enter Food Name and Price.");
   return;
+ }
+
+ if(imageFile){
+  image=await new Promise(function(resolve,reject){
+   const reader=new FileReader();
+   reader.onload=function(){resolve(reader.result)};
+   reader.onerror=reject;
+   reader.readAsDataURL(imageFile);
+  });
  }
 
  const food={
@@ -1418,7 +1520,8 @@ function editFood(category,index){
  document.getElementById("foodName").value=item.name;
  document.getElementById("foodPrice").value=item.price;
  document.getElementById("foodCategory").value=category;
- document.getElementById("foodImage").value=item.image;
+ document.getElementById("foodImage").value="";
+ document.getElementById("foodImageData").value=item.image;
 
  document.getElementById("editingIndex").value=index;
  document.getElementById("editingCategory").value=category;
@@ -1451,6 +1554,7 @@ function clearFoodForm(){
  document.getElementById("foodName").value="";
  document.getElementById("foodPrice").value="";
  document.getElementById("foodImage").value="";
+ document.getElementById("foodImageData").value="";
  document.getElementById("editingIndex").value="-1";
  document.getElementById("editingCategory").value="";
  document.querySelector(".add-food").innerText="➕ ADD FOOD";
